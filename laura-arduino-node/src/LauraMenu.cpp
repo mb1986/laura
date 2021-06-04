@@ -75,8 +75,8 @@ void LauraMenuClass::select(char keyNo) {
 
   MenuItem* selectedItem = &_menu->items[keyNo - 1];
 
-  if (selectedItem->handle) {
-    selectedItem->handle();
+  if (selectedItem->handler) {
+    selectedItem->handler();
   }
 
   if (selectedItem->next) {
@@ -88,18 +88,18 @@ MenuBar* LauraMenuClass::menu() {
   return _menu;
 }
 
-void LauraMenuClass::registerAlphaHandler(AlphaHandle alphaHandler) {
+void LauraMenuClass::onSelectAlpha(AlphaHandler alphaHandler) {
   _alphaHandler = alphaHandler;
-}
-
-void LauraMenuClass::setParam(MenuParam param, char* value) {
-  _params[param] = value;
 }
 
 void LauraMenuClass::_handleAlpha(char c) {
   if (_alphaHandler) {
     _alphaHandler(c);
   }
+}
+
+void LauraMenuClass::setParam(MenuParam param, char* value) {
+  _params[param] = value;
 }
 
 LauraMenuClass LauraMenu;

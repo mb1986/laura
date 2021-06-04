@@ -6,8 +6,7 @@
 #define MENU_BARS_NO  8
 #define MENU_ITEMS_NO 6
 
-typedef std::function<void(void)> Handle;
-typedef std::function<void(char)> AlphaHandle;
+typedef std::function<void(char)> AlphaHandler;
 
 enum MenuParam {
   LORA_SF = 0,
@@ -17,7 +16,7 @@ enum MenuParam {
 struct MenuItem {
   char *label;
   struct MenuBar *next;
-  Handle handle;
+  std::function<void(void)> handler;
   char **param;
 };
 
@@ -31,7 +30,7 @@ public:
 
   void select(char keyNo);
 
-  void registerAlphaHandler(AlphaHandle alphaHandler);
+  void onSelectAlpha(AlphaHandler alphaHandler);
 
   void setParam(MenuParam p, char* value);
 
@@ -41,7 +40,7 @@ private:
   char *_params[FINAL_MenuParam_ENTRY];
 
 private:
-  AlphaHandle _alphaHandler;
+  AlphaHandler _alphaHandler;
   void _handleAlpha(char c);
 
 private:
