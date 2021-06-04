@@ -66,16 +66,24 @@ void LauraDisplayClass::drawMenu() {
 
       // if label is not empty string then draw menu text
       if (item->label[0]) {
+
+        char *label = item->label;
+
+        if (item->param) {
+          snprintf(buffer, BUFFER_SIZE, label, *item->param);
+          label = buffer;
+        }
+
         int16_t tbx, tby;
         uint16_t tbw, tbh;
-        display.getTextBounds(item->label, 0, 0, &tbx, &tby, &tbw, &tbh);
+        display.getTextBounds(label, 0, 0, &tbx, &tby, &tbw, &tbh);
 
         uint16_t tx = ((MENU_WIDTH - tbw) / 2) - tbx + x;
         // uint16_t ty = ((MENU_HEIGHT - tbh) / 2) - tby + MENU_POS_Y;
 
         display.setCursor(tx, MENU_POS_Y + 12);
         // display.setCursor(tx, ty);
-        display.print(item->label);
+        display.print(label);
       }
     }
 

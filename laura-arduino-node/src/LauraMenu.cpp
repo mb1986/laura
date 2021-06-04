@@ -58,6 +58,14 @@ LauraMenuClass::LauraMenuClass()
     MenuItem {""},
     MenuItem {""},
   },
+  MenuBar { // 7
+    MenuItem {"SF : %s", &_menuDef[0], nullptr, &_params[LORA_SF]},
+    MenuItem {""},
+    MenuItem {""},
+    MenuItem {""},
+    MenuItem {""},
+    MenuItem {""},
+  },
 }
 , _menu { &_menuDef[0] }
 {}
@@ -82,6 +90,10 @@ MenuBar* LauraMenuClass::menu() {
 
 void LauraMenuClass::registerAlphaHandler(AlphaHandle alphaHandler) {
   _alphaHandler = alphaHandler;
+}
+
+void LauraMenuClass::setParam(MenuParam param, char* value) {
+  _params[param] = value;
 }
 
 void LauraMenuClass::_handleAlpha(char c) {

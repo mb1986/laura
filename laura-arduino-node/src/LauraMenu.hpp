@@ -3,16 +3,22 @@
 
 #include <functional>
 
-#define MENU_BARS_NO  7
+#define MENU_BARS_NO  8
 #define MENU_ITEMS_NO 6
 
 typedef std::function<void(void)> Handle;
 typedef std::function<void(char)> AlphaHandle;
 
+enum MenuParam {
+  LORA_SF = 0,
+  FINAL_MenuParam_ENTRY,
+};
+
 struct MenuItem {
   char *label;
   struct MenuBar *next;
   Handle handle;
+  char **param;
 };
 
 struct MenuBar {
@@ -27,7 +33,12 @@ public:
 
   void registerAlphaHandler(AlphaHandle alphaHandler);
 
+  void setParam(MenuParam p, char* value);
+
   MenuBar* menu();
+
+private:
+  char *_params[FINAL_MenuParam_ENTRY];
 
 private:
   AlphaHandle _alphaHandler;
