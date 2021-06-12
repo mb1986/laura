@@ -12,22 +12,14 @@ class LauraDisplayClass {
 
 public:
   void init();
+  void clear(uint16_t color = GxEPD_WHITE);
 
-  void setFullWindow();
-
-  void setHeaderWindow();
   void drawHeader(int rssi, float snr, long cfo);
-
-  void setMenuWindow();
   void drawMenu();
-
-  void draw(std::function<void(void)> drawFunc);
+  void update(bool partial = false);
 
   void hibernate();
-
-private:
-  void firstPage();
-  bool nextPage();
+  void powerOff();
 };
 
 extern LauraDisplayClass LauraDisplay;

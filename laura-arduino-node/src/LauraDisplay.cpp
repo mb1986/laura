@@ -22,17 +22,17 @@ void LauraDisplayClass::init() {
   display.setFont(nullptr);
 }
 
-void LauraDisplayClass::setFullWindow() {
+void LauraDisplayClass::clear(uint16_t color) {
   display.setFullWindow();
-}
-
-void LauraDisplayClass::setHeaderWindow() {
-  display.setPartialWindow(0, 0, display.width(), HEADER_HEIGHT);
+  display.fillScreen(color);
 }
 
 void LauraDisplayClass::drawHeader(int rssi, float snr, long cfo) {
 
   snprintf(buffer, BUFFER_SIZE, HEADER_STRING, rssi, snr, cfo);
+
+  display.setFullWindow();
+  display.fillRect(0, 0, display.width(), HEADER_HEIGHT, GxEPD_WHITE);
 
   display.setTextColor(GxEPD_BLACK);
   display.setTextSize(1);
@@ -41,13 +41,12 @@ void LauraDisplayClass::drawHeader(int rssi, float snr, long cfo) {
   display.print(buffer);
 }
 
-void LauraDisplayClass::setMenuWindow() {
-  display.setPartialWindow(0, MENU_POS_Y, display.width(), MENU_HEIGHT);
-}
-
 void LauraDisplayClass::drawMenu() {
 
   MenuBar *menu = LauraMenu.menu();
+
+  display.setFullWindow();
+  display.fillRect(0, MENU_POS_Y, display.width(), MENU_HEIGHT, GxEPD_WHITE);
 
   display.setFont(&pixelated8pt7b);
   display.setTextColor(GxEPD_WHITE);
@@ -95,25 +94,16 @@ void LauraDisplayClass::drawMenu() {
   display.setTextColor(GxEPD_BLACK);
 }
 
-void LauraDisplayClass::draw(std::function<void(void)> drawFunc) {
-  firstPage();
-  do
-  {
-    drawFunc();
-  }
-  while (nextPage());
+void LauraDisplayClass::update(bool partial) {
+  display.display(partial);
 }
 
 void LauraDisplayClass::hibernate() {
   display.hibernate();
 }
 
-void LauraDisplayClass::firstPage() {
-  display.firstPage();
-}
-
-bool LauraDisplayClass::nextPage() {
-  return display.nextPage();
+void LauraDisplayClass::powerOff() {
+  display.powerOff();
 }
 
 LauraDisplayClass LauraDisplay;
